@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Medical System — نظام طبي متكامل يربط الإدارة بالممرضين والعملاء في منصة واحدة ذكية. إدارة المرضى، التقارير اليومية، التحصيل المالي." />
+  <meta property="og:title" content="Medical System — نظام طبي متكامل" />
+  <meta property="og:description" content="منصة طبية ذكية تربط الإدارة بالممرضين والعملاء في نظام واحد سلس" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80" />
+  <title>Medical System — نظام طبي متكامل</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ══════════════════════════════════════════
+       1. Variables + Dark Theme Override
+    ══════════════════════════════════════════ */
+    :root {
+      --primary:      #0A6E8A;
+      --primary-dark: #064E65;
+      --primary-light:#E0F4FA;
+      --accent:       #00D4AA;
+      --accent-dark:  #00A882;
+      --danger:       #E63946;
+      --success:      #10B981;
+      --warning:      #F59E0B;
+      --bg:           #F0F7FA;
+      --bg-card:      #FFFFFF;
+      --bg-section:   #E8F3F8;
+      --text:         #0D2B35;
+      --text-muted:   #4A6970;
+      --border:       #C8E0E8;
+      --shadow-sm:    0 1px 4px rgba(0,80,100,0.08);
+      --shadow-lg:    0 10px 40px rgba(0,80,100,0.12);
+      --shadow-glow:  0 0 30px rgba(0,212,170,0.30);
+      --transition:   0.3s cubic-bezier(0.4,0,0.2,1);
+      --radius:       14px;
+      --radius-lg:    20px;
+      --header-h:     72px;
+    }
+    [data-theme="dark"] {
+      --bg:           #060E12;
+      --bg-card:      #0D1E25;
+      --bg-section:   #091519;
+      --text:         #E8F5F8;
+      --text-muted:   #7BAABB;
+      --border:       rgba(0,180,200,0.12);
+      --shadow-lg:    0 10px 40px rgba(0,0,0,0.55);
+      --primary-light:#0D2B35;
+    }
+
+    /* ══════════════════════════════════════════
+       2. Reset + Base Styles
+    ══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Cairo', 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      transition: background var(--transition), color var(--transition);
+      padding-bottom: 0;
+    }
+    [lang="en"] body, body.en {
+      font-family: 'Outfit', 'Cairo', sans-serif;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    ul { list-style: none; }
+
+    /* ══════════════════════════════════════════
+       3. Typography + Utilities
+    ══════════════════════════════════════════ */
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    .section-subtitle {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      color: var(--text-muted);
+      max-width: 600px;
+    }
+    .section-head {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-head .section-subtitle { margin: 0.75rem auto 0; }
+    .accent-line {
+      display: inline-block;
+      width: 60px; height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      border-radius: 2px;
+      margin: 0.75rem 0;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
+    .section { padding: 5rem 0; }
+    .section-alt { background: var(--bg-section); }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* ══════════════════════════════════════════
+       4. Components: btn · card · badge
+    ══════════════════════════════════════════ */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      min-height: 44px;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(10,110,138,0.35);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(10,110,138,0.45);
+    }
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(0,212,170,0.35);
+    }
+    .btn-accent:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+    .btn-outline {
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      background: transparent;
+    }
+    .btn-outline:hover { background: var(--accent); color: #fff; }
+    .btn-ghost {
+      color: var(--text);
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.2); }
+    .btn-whatsapp {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    }
+    .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,0.5); }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-success { background: rgba(16,185,129,0.12); color: var(--success); }
+    .badge-warning { background: rgba(245,158,11,0.12); color: var(--warning); }
+    .badge-danger  { background: rgba(230,57,70,0.12);  color: var(--danger); }
+    .badge-primary { background: rgba(10,110,138,0.12); color: var(--primary); }
+    .badge-accent  { background: rgba(0,212,170,0.12);  color: var(--accent-dark); }
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition);
+    }
+    .card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+
+    /* Glass */
+    .glass {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    [data-theme="dark"] .glass {
+      background: rgba(13,30,37,0.8);
+      border: 1px solid rgba(0,180,200,0.15);
+    }
+
+    /* ══════════════════════════════════════════
+       5. Header
+    ══════════════════════════════════════════ */
+    #header {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--header-h);
+      z-index: 500;
+      transition: all var(--transition);
+    }
+    #header.scrolled {
+      background: rgba(240,247,250,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    [data-theme="dark"] #header.scrolled {
+      background: rgba(6,14,18,0.88);
+      border-bottom-color: var(--border);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: var(--header-h);
+    }
+    .logo {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-weight: 800; font-size: 1.2rem;
+      color: var(--text);
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .logo-text span { color: var(--accent); }
+    nav.desktop-nav { display: flex; align-items: center; gap: 0.25rem; }
+    nav.desktop-nav a {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all var(--transition);
+      min-height: 44px;
+      display: flex; align-items: center;
+    }
+    nav.desktop-nav a:hover { background: var(--primary-light); color: var(--primary); }
+    nav.desktop-nav a.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+    .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      transition: all var(--transition);
+      min-height: 44px; min-width: 44px;
+    }
+    .icon-btn:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+    .lang-btn {
+      padding: 0 0.75rem;
+      font-weight: 600; font-size: 0.85rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      height: 40px; min-height: 44px;
+      transition: all var(--transition);
+    }
+    .lang-btn:hover { background: var(--primary-light); color: var(--primary); }
+
+    /* ══════════════════════════════════════════
+       6. Hero — 100vh
+    ══════════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      padding-top: var(--header-h);
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      background-image: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1600&q=80&auto=format&fit=crop');
+      filter: brightness(0.35);
+      transition: opacity 0.8s;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(6,78,101,0.75) 0%, rgba(0,20,30,0.6) 50%, rgba(0,100,80,0.4) 100%);
+    }
+    /* Animated grid pattern overlay */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.06) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridPulse 4s ease-in-out infinite;
+    }
+    @keyframes gridPulse {
+      0%,100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 2rem 1.25rem;
+      max-width: 800px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(0,212,170,0.15);
+      border: 1px solid rgba(0,212,170,0.4);
+      color: var(--accent);
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.6s ease both;
+    }
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.7s 0.1s ease both;
+    }
+    .hero-title .highlight {
+      background: linear-gradient(90deg, var(--accent), #7FF8E2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+      animation: fadeInUp 0.7s 0.2s ease both;
+    }
+    .hero-btns {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1rem; flex-wrap: wrap;
+      animation: fadeInUp 0.7s 0.3s ease both;
+    }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 2rem;
+      margin-top: 3.5rem;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.7s 0.4s ease both;
+    }
+    .hero-stat {
+      text-align: center;
+      color: rgba(255,255,255,0.85);
+    }
+    .hero-stat strong {
+      display: block;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .hero-stat span { font-size: 0.85rem; opacity: 0.8; }
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: rgba(255,255,255,0.5); font-size: 0.75rem;
+      animation: bounce 2s infinite;
+    }
+    .scroll-arrow { font-size: 1.2rem; }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ══════════════════════════════════════════
+       6b. About Section
+    ══════════════════════════════════════════ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .about-text h2 { margin-bottom: 1rem; }
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .stat-card {
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      text-align: center;
+      transition: all var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    .stat-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .stat-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .stat-num {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+    /* ══════════════════════════════════════════
+       7. Products / Services
+    ══════════════════════════════════════════ */
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .service-card {
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity var(--transition);
+      z-index: 0;
+    }
+    .service-card:hover::before { opacity: 0.04; }
+    .service-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+    .service-card > * { position: relative; z-index: 1; }
+    .service-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+    .service-icon {
+      width: 56px; height: 56px; flex-shrink: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary-light), rgba(0,212,170,0.1));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+    .service-card:hover .service-icon {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-color: transparent;
+      transform: scale(1.1) rotate(-5deg);
+    }
+    .service-arrow {
+      width: 36px; height: 36px; flex-shrink: 0;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      transition: all var(--transition);
+    }
+    .service-card:hover .service-arrow {
+      background: var(--accent); color: #fff;
+      border-color: var(--accent);
+      transform: translateX(-4px);
+    }
+    [dir="ltr"] .service-card:hover .service-arrow { transform: translateX(4px); }
+    .service-name { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .service-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+    .service-meta { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+    .service-count {
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+    }
+    .service-features {
+      display: flex; gap: 0.4rem; flex-wrap: wrap;
+    }
+    .feature-pill {
+      font-size: 0.72rem; font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: 20px;
+      background: var(--bg-section);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    /* ══════════════════════════════════════════
+       8. Contact
+    ══════════════════════════════════════════ */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .contact-info-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+    }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-item:last-of-type { border-bottom: none; }
+    .contact-item-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      border-radius: 12px;
+      background: var(--primary-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+    .contact-item-info strong { display: block; font-weight: 600; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.2rem; }
+    .contact-item-info a, .contact-item-info span { font-size: 1rem; font-weight: 600; color: var(--text); }
+    .contact-item-info a:hover { color: var(--primary); }
+    .map-placeholder {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      min-height: 300px;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1rem;
+      color: var(--text-muted);
+      font-size: 1rem;
+      position: relative;
+    }
+    .map-placeholder::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(10,110,138,0.08) 0%, transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(0,212,170,0.06) 0%, transparent 50%);
+    }
+    .map-icon { font-size: 3rem; }
+    .hours-grid {
+      display: grid; gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .hour-row { display: flex; justify-content: space-between; font-size: 0.9rem; }
+    .hour-row .day { color: var(--text-muted); }
+    .hour-row .time { font-weight: 600; }
+
+    /* ══════════════════════════════════════════
+       9. Footer
+    ══════════════════════════════════════════ */
+    #footer {
+      background: var(--primary-dark);
+      color: rgba(255,255,255,0.8);
+      padding: 60px 0 30px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 2rem;
+    }
+    .footer-brand .logo { color: #fff; margin-bottom: 1rem; }
+    .footer-brand p { font-size: 0.9rem; line-height: 1.7; opacity: 0.7; }
+    .footer-col h4 { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
+    .footer-col ul li { margin-bottom: 0.5rem; }
+    .footer-col ul li a { font-size: 0.88rem; opacity: 0.7; transition: opacity var(--transition); }
+    .footer-col ul li a:hover { opacity: 1; color: var(--accent); }
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      font-size: 0.82rem; opacity: 0.55;
+    }
+    .footer-social { display: flex; gap: 0.75rem; }
+    .social-btn {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      transition: all var(--transition);
+    }
+    .social-btn:hover { background: var(--accent); color: #fff; transform: translateY(-3px); }
+
+    /* ══════════════════════════════════════════
+       10. Modals
+    ══════════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: flex-end;
+      z-index: 1000;
+      opacity: 0; visibility: hidden;
+      transition: all 0.3s;
+    }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal-sheet {
+      width: 100%;
+      max-height: 92vh;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .modal-overlay.active .modal-sheet { transform: translateY(0); }
+    .modal-handle {
+      width: 40px; height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 0.75rem auto;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+    .modal-title { font-size: 1.3rem; font-weight: 700; }
+    .modal-close {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--bg-section);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--text-muted);
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+    .modal-close:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+    .modal-body { padding: 1.5rem; }
+    .modal-products-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .product-card {
+      display: flex; gap: 1rem;
+      padding: 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: all var(--transition);
+      align-items: center;
+    }
+    .product-card:hover { border-color: var(--accent); box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .product-img {
+      width: 75px; height: 75px; flex-shrink: 0;
+      border-radius: 12px;
+      object-fit: cover;
+      background: var(--bg-section);
+    }
+    .product-info { flex: 1; min-width: 0; }
+    .product-cat { font-size: 0.72rem; font-weight: 600; color: var(--accent-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
+    .product-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .product-price { font-size: 1rem; font-weight: 800; color: var(--primary); }
+    .product-stock { font-size: 0.75rem; }
+
+    /* Level 2 Modal - Product Detail */
+    #modal-product { z-index: 2000; }
+    #modal-product .modal-sheet { max-width: 900px; margin: 0 auto; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+    .product-detail-grid {
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .product-detail-img {
+      width: 100%; aspect-ratio: 16/9;
+      border-radius: var(--radius);
+      object-fit: cover;
+      background: var(--bg-section);
+    }
+    .product-detail-name { font-size: clamp(1.3rem, 3vw, 1.7rem); font-weight: 800; margin-bottom: 0.5rem; }
+    .product-detail-price { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem; }
+    .product-detail-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 1.25rem; }
+    .product-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.25rem; }
+    .spec-item {
+      padding: 0.6rem 0.8rem;
+      border-radius: 10px;
+      background: var(--bg-section);
+      border: 1px solid var(--border);
+    }
+    .spec-key { font-size: 0.72rem; color: var(--text-muted); display: block; margin-bottom: 0.15rem; }
+    .spec-val { font-size: 0.9rem; font-weight: 600; }
+    .cert-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .cert-badge {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.78rem; font-weight: 600;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+
+    /* ══════════════════════════════════════════
+       11. WhatsApp Float + Mobile Nav
+    ══════════════════════════════════════════ */
+    #wa-float {
+      position: fixed; bottom: 1.5rem;
+      z-index: 400;
+      animation: floatPulse 3s ease-in-out infinite;
+    }
+    [dir="rtl"] #wa-float { left: 1.5rem; }
+    [dir="ltr"] #wa-float { right: 1.5rem; }
+    .wa-float-btn {
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+      transition: all var(--transition);
+      color: #fff;
+    }
+    .wa-float-btn:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(37,211,102,0.6); }
+    @keyframes floatPulse {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    #mobile-nav {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      z-index: 450;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    }
+    .mobile-nav-inner {
+      display: flex; align-items: center; justify-content: space-around;
+      height: 62px; padding: 0 0.5rem;
+    }
+    .mobile-nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 12px;
+      color: var(--text-muted);
+      font-size: 0.65rem; font-weight: 600;
+      transition: all var(--transition);
+      min-width: 60px; min-height: 44px; justify-content: center;
+    }
+    .mobile-nav-item span.icon { font-size: 1.3rem; }
+    .mobile-nav-item:hover, .mobile-nav-item.active { color: var(--primary); background: var(--primary-light); }
+    .mobile-nav-item.wa { color: #25D366; }
+    .mobile-nav-item.wa:hover { background: rgba(37,211,102,0.1); }
+
+    /* ══════════════════════════════════════════
+       12. Animations
+    ══════════════════════════════════════════ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .animate-on-scroll {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+
+    /* ══════════════════════════════════════════
+       13. Responsive Media Queries
+    ══════════════════════════════════════════ */
+    @media (max-width: 380px) {
+      .hero-btns { flex-direction: column; align-items: stretch; }
+      .hero-stats { gap: 1rem; }
+    }
+    @media (min-width: 480px) {
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .modal-products-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 768px) {
+      .about-grid { grid-template-columns: 1fr 1fr; align-items: start; }
+      .contact-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
+      .product-detail-grid { flex-direction: row; }
+      .product-detail-img { width: 45%; aspect-ratio: auto; height: auto; min-height: 300px; align-self: flex-start; }
+      .modal-products-grid { grid-template-columns: 1fr 1fr 1fr; }
+      .modal-sheet { border-radius: var(--radius-lg); }
+      .modal-overlay { align-items: center; padding: 1rem; }
+    }
+    @media (min-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(3, 1fr); }
+      nav.desktop-nav { display: flex; }
+      #mobile-nav { display: none !important; }
+      #wa-float { display: flex; }
+    }
+    @media (max-width: 1023px) {
+      nav.desktop-nav { display: none; }
+      #mobile-nav { display: flex; }
+      #wa-float { display: none; }
+      body { padding-bottom: 62px; }
+    }
+    @media (min-width: 1280px) {
+      .services-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Loading state */
+    .skeleton {
+      background: linear-gradient(90deg, var(--border) 25%, var(--bg-section) 50%, var(--border) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer {
+      from { background-position: 200% 0; }
+      to   { background-position: -200% 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════ HEADER -->
+  <header id="header" role="banner">
+    <div class="container header-inner">
+      <a href="#" class="logo" aria-label="Medical System Home">
+        <div class="logo-icon">🏥</div>
+        <span class="logo-text">Medical<span> System</span></span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#hero" data-key="nav_home" class="active">الرئيسية</a>
+        <a href="#about" data-key="nav_about">من نحن</a>
+        <a href="#services" data-key="nav_services">الخدمات</a>
+        <a href="#contact" data-key="nav_contact">تواصل معنا</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()" aria-label="Toggle language">EN</button>
+        <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+        <a href="#" id="headerWaBtn" class="btn btn-accent" style="padding:0.5rem 1rem;font-size:0.85rem;">
+          <span>💬</span> <span data-key="cta_whatsapp">واتساب</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════ HERO -->
+  <section id="hero" aria-label="Hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>⚕️</span>
+        <span data-key="hero_badge">نظام طبي متكامل · الجيل القادم</span>
+      </div>
+      <h1 class="hero-title">
+        <span data-key="hero_title_1">إدارة طبية</span><br>
+        <span class="highlight" data-key="hero_title_2">ذكية ومتكاملة</span>
+      </h1>
+      <p class="hero-sub" data-key="hero_sub">
+        منصة تربط الإدارة بالممرضين والعملاء في نظام واحد — تقارير يومية، تحصيل مالي، ومتابعة حالات في الوقت الفعلي.
+      </p>
+      <div class="hero-btns">
+        <a href="#services" class="btn btn-accent" data-key="hero_cta1">🚀 اكتشف الخدمات</a>
+        <a href="#" id="heroWaBtn" class="btn btn-ghost" data-key="hero_cta2">💬 تواصل الآن</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <strong>+200</strong>
+          <span data-key="stat_nurses">ممرض مسجّل</span>
+        </div>
+        <div class="hero-stat">
+          <strong>+500</strong>
+          <span data-key="stat_patients">مريض تحت الرعاية</span>
+        </div>
+        <div class="hero-stat">
+          <strong>98%</strong>
+          <span data-key="stat_satisfaction">رضا العملاء</span>
+        </div>
+        <div class="hero-stat">
+          <strong>24/7</strong>
+          <span data-key="stat_support">دعم متواصل</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span class="scroll-arrow">↓</span>
+      <span data-key="scroll_down">مرر للأسفل</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════ ABOUT -->
+  <section id="about" class="section section-alt">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text animate-on-scroll">
+          <div class="accent-line"></div>
+          <h2 class="section-title" data-key="about_title">من نحن</h2>
+          <p data-key="about_p1">
+            Medical System نظام طبي رقمي متكامل صُمِّم خصيصاً لشركات الرعاية المنزلية والمراكز الطبية التي تحتاج إلى ربط فريقها الطبي بالإدارة والعملاء في منصة واحدة سلسة وموثوقة.
+          </p>
+          <p data-key="about_p2">
+            يتيح النظام للممرضين تسجيل التقارير اليومية مباشرةً من هواتفهم أثناء زياراتهم الميدانية، بينما تتابع الإدارة جميع الحالات النشطة والتحصيل المالي لحظةً بلحظة من لوحة تحكم متطورة.
+          </p>
+          <p data-key="about_p3">
+            كما يمتلك كل عميل (أهل المريض) صفحةً خاصة بمريضهم يطّلعون منها على تقارير الممرض، الأدوية، والفواتير — شفافية كاملة تبني ثقةً راسخة.
+          </p>
+        </div>
+        <div class="stats-grid animate-on-scroll">
+          <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-num" data-count="5">0</div>
+            <div class="stat-label" data-key="stat1">سنوات خبرة</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-num" data-count="500">0</div>
+            <div class="stat-label" data-key="stat2">عميل يثق بنا</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏥</div>
+            <div class="stat-num" data-count="6">0</div>
+            <div class="stat-label" data-key="stat3">وحدات رئيسية</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🌍</div>
+            <div class="stat-num" data-count="3">0</div>
+            <div class="stat-label" data-key="stat4">دول تعمل بها</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════ SERVICES -->
+  <section id="services" class="section">
+    <div class="container">
+      <div class="section-head animate-on-scroll">
+        <div class="accent-line" style="margin:0 auto 0.75rem;"></div>
+        <h2 class="section-title" data-key="services_title">وحدات النظام</h2>
+        <p class="section-subtitle" data-key="services_sub">كل وحدة مصممة لتقليل التعقيد وزيادة الكفاءة في بيئات الرعاية الصحية</p>
+      </div>
+      <div class="services-grid" id="servicesGrid"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════ CONTACT -->
+  <section id="contact" class="section section-alt">
+    <div class="container">
+      <div class="section-head animate-on-scroll">
+        <div class="accent-line" style="margin:0 auto 0.75rem;"></div>
+        <h2 class="section-title" data-key="contact_title">تواصل معنا</h2>
+        <p class="section-subtitle" data-key="contact_sub">فريقنا جاهز لمساعدتك في تطبيق النظام على شركتك</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info-card animate-on-scroll">
+          <div class="contact-item">
+            <div class="contact-item-icon">📱</div>
+            <div class="contact-item-info">
+              <strong data-key="contact_phone_label">الهاتف / واتساب</strong>
+              <a href="tel:+201113903070">+20 111 390 3070</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📧</div>
+            <div class="contact-item-info">
+              <strong data-key="contact_email_label">البريد الإلكتروني</strong>
+              <a href="mailto:moh222salah@gmail.com">moh222salah@gmail.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div class="contact-item-info">
+              <strong data-key="contact_location_label">الموقع</strong>
+              <span data-key="contact_location_val">مصر · الخليج · المملكة العربية السعودية</span>
+            </div>
+          </div>
+          <div class="hours-grid">
+            <h4 style="font-size:0.9rem;font-weight:700;margin-bottom:0.75rem;" data-key="hours_title">ساعات العمل</h4>
+            <div class="hour-row">
+              <span class="day" data-key="day_sat_thu">السبت — الخميس</span>
+              <span class="time">9:00 — 18:00</span>
+            </div>
+            <div class="hour-row">
+              <span class="day" data-key="day_fri">الجمعة</span>
+              <span class="time" data-key="closed">مغلق</span>
+            </div>
+            <div class="hour-row" style="margin-top:0.5rem;">
+              <span class="day" data-key="emergency_label">دعم طوارئ</span>
+              <span class="time badge badge-success" data-key="emergency_val">24 / 7</span>
+            </div>
+          </div>
+          <div style="margin-top:1.5rem;">
+            <a href="#" id="contactWaBtn" class="btn btn-whatsapp" style="width:100%;">
+              <span>💬</span> <span data-key="start_now">ابدأ الآن عبر واتساب</span>
+            </a>
+          </div>
+        </div>
+        <div class="map-placeholder animate-on-scroll">
+          <div class="map-icon">🗺️</div>
+          <p data-key="map_placeholder">يمكن إضافة Google Maps iframe هنا</p>
+          <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn btn-outline" data-key="open_maps">فتح الخرائط</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════ FOOTER -->
+  <footer id="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo" style="color:#fff;margin-bottom:1rem;">
+            <div class="logo-icon">🏥</div>
+            <span class="logo-text">Medical<span style="color:var(--accent);"> System</span></span>
+          </div>
+          <p data-key="footer_desc">نظام طبي رقمي متكامل يربط الإدارة بالممرضين والعملاء في منصة واحدة ذكية وسلسة.</p>
+          <div class="footer-social" style="margin-top:1.25rem;">
+            <a href="https://wa.me/201113903070" class="social-btn" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+            <a href="mailto:moh222salah@gmail.com" class="social-btn" aria-label="Email">✉️</a>
+            <a href="#" class="social-btn" aria-label="LinkedIn">💼</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footer_modules">الوحدات</h4>
+          <ul id="footerModules"></ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footer_links">روابط سريعة</h4>
+          <ul>
+            <li><a href="#about" data-key="nav_about">من نحن</a></li>
+            <li><a href="#services" data-key="nav_services">الخدمات</a></li>
+            <li><a href="#contact" data-key="nav_contact">تواصل معنا</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footer_contact">التواصل</h4>
+          <ul>
+            <li><a href="tel:+201113903070">+20 111 390 3070</a></li>
+            <li><a href="mailto:moh222salah@gmail.com">moh222salah@gmail.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Medical System. <span data-key="rights">جميع الحقوق محفوظة.</span></span>
+        <span data-key="made_with">صُنع بـ ❤️ · كود نظيف · بدون أطر عمل</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float (Desktop) -->
+  <div id="wa-float" aria-label="WhatsApp">
+    <a href="#" id="waFloatBtn" class="wa-float-btn" title="WhatsApp">💬</a>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav id="mobile-nav" aria-label="Mobile navigation">
+    <div class="mobile-nav-inner">
+      <a href="#hero" class="mobile-nav-item active" data-nav="hero">
+        <span class="icon">🏠</span>
+        <span data-key="nav_home">الرئيسية</span>
+      </a>
+      <a href="#services" class="mobile-nav-item" data-nav="services">
+        <span class="icon">⚕️</span>
+        <span data-key="nav_services">الخدمات</span>
+      </a>
+      <a href="#" id="mobileWaBtn" class="mobile-nav-item wa">
+        <span class="icon">💬</span>
+        <span>واتساب</span>
+      </a>
+      <a href="#contact" class="mobile-nav-item" data-nav="contact">
+        <span class="icon">📞</span>
+        <span data-key="nav_contact">تواصل</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Modal: Service (Level 1) -->
+  <div class="modal-overlay" id="modal-service" role="dialog" aria-modal="true" aria-labelledby="modalServiceTitle">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div>
+          <div id="modalServiceCat" style="font-size:0.75rem;color:var(--accent-dark);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.2rem;"></div>
+          <h2 class="modal-title" id="modalServiceTitle"></h2>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-service')" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="modalServiceDesc" style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.7;"></p>
+        <div class="modal-products-grid" id="modalProductsGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Product Detail (Level 2) -->
+  <div class="modal-overlay" id="modal-product" role="dialog" aria-modal="true" aria-labelledby="modalProductName">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalProductName"></h2>
+        <button class="modal-close" onclick="closeModal('modal-product')" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="product-detail-grid">
+          <img id="modalProductImg" class="product-detail-img" src="" alt="" loading="lazy"
+               onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMGE2ZThhMjAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBhNmU4YSIgZm9udC1zaXplPSI0MCI+8J+SnTwvdGV4dD48L3N2Zz4='">
+          <div class="product-detail-info">
+            <div id="modalProductBadges" class="cert-badges"></div>
+            <h3 class="product-detail-name" id="modalProductTitle"></h3>
+            <div class="product-detail-price" id="modalProductPrice"></div>
+            <p class="product-detail-desc" id="modalProductDesc"></p>
+            <div class="product-specs" id="modalProductSpecs"></div>
+            <a href="#" id="modalProductWa" class="btn btn-whatsapp" style="width:100%;">
+              <span>💬</span> <span data-key="inquire_whatsapp">استفسر عبر واتساب</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ══════════════════════════════════════
+       1. Config
+    ══════════════════════════════════════ */
+    const CONFIG = {
+      BUSINESS_NAME: 'Medical System',
+      BUSINESS_TYPE: 'medical',
+      PHONE: '201113903070',
+      EMAIL: 'moh222salah@gmail.com',
+      LOCATION: 'مصر · الخليج · المملكة العربية السعودية',
+      MAPS_URL: ''
+    };
+
+    /* ══════════════════════════════════════
+       2. State
+    ══════════════════════════════════════ */
+    const state = {
+      lang: (()=>{
+        const saved = localStorage.getItem('ms_lang');
+        if (saved) return saved;
+        return navigator.language.startsWith('ar') ? 'ar' : 'ar'; // default AR
+      })(),
+      theme: (()=>{
+        const saved = localStorage.getItem('ms_theme');
+        if (saved) return saved;
+        return window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+      })(),
+      openModal: null,
+      activeService: null,
+      activeProduct: null
+    };
+
+    /* ══════════════════════════════════════
+       3. Translations
+    ══════════════════════════════════════ */
+    const T = {
+      ar: {
+        nav_home: 'الرئيسية', nav_about: 'من نحن', nav_services: 'الخدمات', nav_contact: 'تواصل معنا',
+        hero_badge: 'نظام طبي متكامل · الجيل القادم',
+        hero_title_1: 'إدارة طبية', hero_title_2: 'ذكية ومتكاملة',
+        hero_sub: 'منصة تربط الإدارة بالممرضين والعملاء في نظام واحد — تقارير يومية، تحصيل مالي، ومتابعة حالات في الوقت الفعلي.',
+        hero_cta1: '🚀 اكتشف الخدمات', hero_cta2: '💬 تواصل الآن',
+        stat_nurses: 'ممرض مسجّل', stat_patients: 'مريض تحت الرعاية', stat_satisfaction: 'رضا العملاء', stat_support: 'دعم متواصل',
+        scroll_down: 'مرر للأسفل',
+        about_title: 'من نحن',
+        about_p1: 'Medical System نظام طبي رقمي متكامل صُمِّم خصيصاً لشركات الرعاية المنزلية والمراكز الطبية التي تحتاج إلى ربط فريقها الطبي بالإدارة والعملاء في منصة واحدة سلسة وموثوقة.',
+        about_p2: 'يتيح النظام للممرضين تسجيل التقارير اليومية مباشرةً من هواتفهم أثناء زياراتهم الميدانية، بينما تتابع الإدارة جميع الحالات النشطة والتحصيل المالي لحظةً بلحظة.',
+        about_p3: 'كما يمتلك كل عميل (أهل المريض) صفحةً خاصة بمريضهم يطّلعون منها على تقارير الممرض، الأدوية، والفواتير — شفافية كاملة تبني ثقةً راسخة.',
+        stat1: 'سنوات خبرة', stat2: 'عميل يثق بنا', stat3: 'وحدات رئيسية', stat4: 'دول تعمل بها',
+        services_title: 'وحدات النظام',
+        services_sub: 'كل وحدة مصممة لتقليل التعقيد وزيادة الكفاءة في بيئات الرعاية الصحية',
+        contact_title: 'تواصل معنا', contact_sub: 'فريقنا جاهز لمساعدتك في تطبيق النظام على شركتك',
+        contact_phone_label: 'الهاتف / واتساب', contact_email_label: 'البريد الإلكتروني',
+        contact_location_label: 'الموقع', contact_location_val: 'مصر · الخليج · المملكة العربية السعودية',
+        hours_title: 'ساعات العمل', day_sat_thu: 'السبت — الخميس', day_fri: 'الجمعة', closed: 'مغلق',
+        emergency_label: 'دعم طوارئ', emergency_val: '24 / 7',
+        start_now: 'ابدأ الآن عبر واتساب', map_placeholder: 'يمكن إضافة Google Maps iframe هنا', open_maps: 'فتح الخرائط',
+        footer_desc: 'نظام طبي رقمي متكامل يربط الإدارة بالممرضين والعملاء في منصة واحدة ذكية وسلسة.',
+        footer_modules: 'الوحدات', footer_links: 'روابط سريعة', footer_contact: 'التواصل',
+        rights: 'جميع الحقوق محفوظة.', made_with: 'صُنع بـ ❤️ · كود نظيف · بدون أطر عمل',
+        cta_whatsapp: 'واتساب', inquire_whatsapp: 'استفسر عبر واتساب',
+        available: 'متاح', limited: 'محدود', unavailable: 'غير متاح',
+        features_label: 'المميزات', specs_label: 'المواصفات', currency: 'جنيه',
+        products_count: 'ميزة',
+        see_details: 'عرض التفاصيل'
+      },
+      en: {
+        nav_home: 'Home', nav_about: 'About', nav_services: 'Services', nav_contact: 'Contact',
+        hero_badge: 'Integrated Medical System · Next Generation',
+        hero_title_1: 'Smart Medical', hero_title_2: 'Management',
+        hero_sub: 'A platform connecting management, nurses, and clients in one seamless system — daily reports, financial collection, and real-time case monitoring.',
+        hero_cta1: '🚀 Explore Services', hero_cta2: '💬 Contact Now',
+        stat_nurses: 'Registered Nurses', stat_patients: 'Active Patients', stat_satisfaction: 'Client Satisfaction', stat_support: 'Support',
+        scroll_down: 'Scroll Down',
+        about_title: 'About Us',
+        about_p1: 'Medical System is a comprehensive digital medical platform designed specifically for home care companies and medical centers that need to connect their medical team with management and clients in one seamless platform.',
+        about_p2: 'The system allows nurses to log daily reports directly from their phones during field visits, while management monitors all active cases and financial collection in real time.',
+        about_p3: 'Each client (patient\'s family) has a dedicated page to view nurse reports, medications, and invoices — complete transparency that builds solid trust.',
+        stat1: 'Years of Experience', stat2: 'Trusted Clients', stat3: 'Core Modules', stat4: 'Countries',
+        services_title: 'System Modules',
+        services_sub: 'Each module is designed to reduce complexity and increase efficiency in healthcare environments',
+        contact_title: 'Contact Us', contact_sub: 'Our team is ready to help you implement the system in your company',
+        contact_phone_label: 'Phone / WhatsApp', contact_email_label: 'Email Address',
+        contact_location_label: 'Location', contact_location_val: 'Egypt · Gulf · Saudi Arabia',
+        hours_title: 'Working Hours', day_sat_thu: 'Saturday — Thursday', day_fri: 'Friday', closed: 'Closed',
+        emergency_label: 'Emergency Support', emergency_val: '24 / 7',
+        start_now: 'Start Now via WhatsApp', map_placeholder: 'Google Maps iframe can be added here', open_maps: 'Open Maps',
+        footer_desc: 'A comprehensive digital medical system connecting management, nurses, and clients in one smart platform.',
+        footer_modules: 'Modules', footer_links: 'Quick Links', footer_contact: 'Contact',
+        rights: 'All rights reserved.', made_with: 'Built with ❤️ · Clean Code · No Frameworks',
+        cta_whatsapp: 'WhatsApp', inquire_whatsapp: 'Inquire via WhatsApp',
+        available: 'Available', limited: 'Limited', unavailable: 'Unavailable',
+        features_label: 'Features', specs_label: 'Specifications', currency: 'EGP',
+        products_count: 'features',
+        see_details: 'View Details'
+      }
+    };
+
+    /* ══════════════════════════════════════
+       4. Services / Modules Data
+    ══════════════════════════════════════ */
+    const SERVICES = [
+      {
+        icon: '👩‍⚕️',
+        key: 'nurses',
+        name_ar: 'قاعدة بيانات الممرضين',
+        name_en: 'Nurses Database',
+        desc_ar: 'إدارة شاملة لبيانات الممرضين: معلوماتهم الشخصية، أرقامهم، وثائقهم، وسجلات عملهم بشكل منظم وآمن.',
+        desc_en: 'Comprehensive management of nurse data: personal info, contacts, documents, and work records — organized and secure.',
+        features_ar: ['بيانات شخصية', 'وثائق رقمية', 'سجل عمل', 'تقييم أداء'],
+        features_en: ['Personal Data', 'Digital Docs', 'Work History', 'Performance'],
+        count: 8,
+        products: [
+          { name_ar: 'تسجيل الممرض', name_en: 'Nurse Registration', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'إضافة بيانات الممرض الجديد بالكامل مع رفع الوثائق', desc_en: 'Add full nurse profile with document upload', img: 'nurse', specs_ar: ['واجهة بسيطة', 'موبايل فرست', 'رفع ملفات PDF', 'تحقق تلقائي'], specs_en: ['Simple UI', 'Mobile First', 'PDF Upload', 'Auto Validation'] },
+          { name_ar: 'ملف الممرض الكامل', name_en: 'Nurse Full Profile', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'عرض شامل لكل بيانات الممرض مع تاريخ المهام والتقييمات', desc_en: 'Full nurse profile with task history and evaluations', img: 'profile', specs_ar: ['بحث سريع', 'فلترة متقدمة', 'تصدير PDF', 'نسخ احتياطي'], specs_en: ['Quick Search', 'Advanced Filter', 'PDF Export', 'Backup'] },
+          { name_ar: 'إشعارات انتهاء الوثائق', name_en: 'Document Expiry Alerts', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'تنبيهات تلقائية قبل انتهاء صلاحية أي وثيقة للممرض', desc_en: 'Auto alerts before any nurse document expires', img: 'alert', specs_ar: ['تنبيه مسبق 30 يوم', 'إشعار SMS', 'بريد إلكتروني', 'داشبورد'], specs_en: ['30-day Pre-alert', 'SMS Notify', 'Email', 'Dashboard'] },
+          { name_ar: 'تقرير أداء الممرض', name_en: 'Nurse Performance Report', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'تقارير تفصيلية عن أداء كل ممرض بناءً على التقييمات والحضور', desc_en: 'Detailed reports on each nurse based on ratings and attendance', img: 'report', specs_ar: ['رسوم بيانية', 'مقارنة شهرية', 'تصدير Excel', 'فلترة بالتاريخ'], specs_en: ['Charts', 'Monthly Compare', 'Excel Export', 'Date Filter'] }
+        ]
+      },
+      {
+        icon: '🩺',
+        key: 'patients',
+        name_ar: 'سجل المرضى',
+        name_en: 'Patient Records',
+        desc_ar: 'سجل رقمي شامل لكل مريض: الحالة الصحية، الأدوية، التقارير اليومية التي يكتبها الممرض مباشرةً من الموبايل.',
+        desc_en: 'Comprehensive digital record for each patient: health status, medications, daily reports written by the nurse directly from mobile.',
+        features_ar: ['تقارير يومية', 'سجل أدوية', 'حالة صحية', 'موبايل فرست'],
+        features_en: ['Daily Reports', 'Medication Log', 'Health Status', 'Mobile First'],
+        count: 9,
+        products: [
+          { name_ar: 'إضافة مريض جديد', name_en: 'Add New Patient', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'إنشاء ملف طبي كامل للمريض الجديد مع كل بياناته الصحية', desc_en: 'Create a complete medical file for the new patient', img: 'patient', specs_ar: ['فورم سهل', 'صورة المريض', 'تاريخ طبي', 'حالات طارئة'], specs_en: ['Easy Form', 'Patient Photo', 'Medical History', 'Emergency Contacts'] },
+          { name_ar: 'تقرير الممرض اليومي', name_en: 'Daily Nurse Report', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'نموذج سريع وبسيط للممرض يملأه من موبايله في دقيقتين', desc_en: 'Quick simple form for nurses to fill from their phone in 2 minutes', img: 'daily', specs_ar: ['نموذج موبايل', 'ختم الوقت', 'صور مرفقة', 'توقيع رقمي'], specs_en: ['Mobile Form', 'Time Stamp', 'Attached Photos', 'Digital Sign'] },
+          { name_ar: 'سجل الأدوية', name_en: 'Medication Log', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'تتبع كل دواء للمريض مع الجرعات والتوقيت وتأكيد الأخذ', desc_en: 'Track all patient medications with doses, timing, and confirmation', img: 'meds', specs_ar: ['تنبيه جرعة', 'تاريخ كامل', 'تحذيرات', 'طباعة'], specs_en: ['Dose Alert', 'Full History', 'Warnings', 'Print'] },
+          { name_ar: 'ملاحظات الحالة الحرجة', name_en: 'Critical Case Notes', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'تسجيل فوري للملاحظات العاجلة مع إشعار فوري للإدارة', desc_en: 'Instant recording of urgent notes with immediate management notification', img: 'critical', specs_ar: ['إشعار فوري', 'أولوية عالية', 'تاريخ مسجّل', 'رد سريع'], specs_en: ['Instant Alert', 'High Priority', 'Logged History', 'Quick Response'] }
+        ]
+      },
+      {
+        icon: '📊',
+        key: 'admin',
+        name_ar: 'لوحة تحكم الإدارة',
+        name_en: 'Admin Dashboard',
+        desc_ar: 'لوحة تحكم شاملة تتابع منها الإدارة جميع الحالات النشطة، التحصيل المالي، وأداء الممرضين في الوقت الفعلي.',
+        desc_en: 'Comprehensive dashboard for management to monitor all active cases, financial collection, and nurse performance in real time.',
+        features_ar: ['إحصاءات لحظية', 'تحصيل مالي', 'تقارير ممرضين', 'خريطة حالات'],
+        features_en: ['Live Stats', 'Financials', 'Nurse Reports', 'Case Map'],
+        count: 7,
+        products: [
+          { name_ar: 'نظرة عامة - Dashboard', name_en: 'Dashboard Overview', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'صفحة رئيسية تعرض كل مؤشرات الأداء المهمة في لمحة واحدة', desc_en: 'Main page showing all key performance indicators at a glance', img: 'dashboard', specs_ar: ['KPI Cards', 'رسوم بيانية', 'تحديث تلقائي', 'فلترة زمنية'], specs_en: ['KPI Cards', 'Charts', 'Auto Refresh', 'Time Filter'] },
+          { name_ar: 'متابعة الحالات النشطة', name_en: 'Active Cases Monitor', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'قائمة بكل الحالات الجارية مع حالة كل واحدة وآخر تقرير', desc_en: 'List of all ongoing cases with status and latest report', img: 'monitor', specs_ar: ['فلترة ذكية', 'بحث فوري', 'تنبيهات', 'خريطة'], specs_en: ['Smart Filter', 'Instant Search', 'Alerts', 'Map View'] },
+          { name_ar: 'التحصيل المالي', name_en: 'Financial Collection', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'تتبع الفواتير والمدفوعات والمتأخرات مع تقارير مالية تفصيلية', desc_en: 'Track invoices, payments, and arrears with detailed financial reports', img: 'finance', specs_ar: ['فواتير PDF', 'متابعة دفع', 'تصدير Excel', 'تحليلات'], specs_en: ['PDF Invoices', 'Payment Track', 'Excel Export', 'Analytics'] },
+          { name_ar: 'تقارير إدارية', name_en: 'Management Reports', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'تقارير شاملة قابلة للتخصيص عن كل جانب من جوانب العمل', desc_en: 'Comprehensive customizable reports on every aspect of operations', img: 'reports', specs_ar: ['تخصيص كامل', 'جدولة تلقائية', 'إرسال بريد', 'رسوم بيانية'], specs_en: ['Full Custom', 'Auto Schedule', 'Email Send', 'Charts'] }
+        ]
+      },
+      {
+        icon: '👨‍👩‍👦',
+        key: 'clients',
+        name_ar: 'بوابة العملاء',
+        name_en: 'Client Portal',
+        desc_ar: 'صفحة خاصة لكل عميل (أهل المريض) يشاهدون منها تقارير الممرض، الأدوية، وفواتيرهم بشفافية كاملة.',
+        desc_en: 'Dedicated page for each client (patient\'s family) to view nurse reports, medications, and invoices with full transparency.',
+        features_ar: ['تقارير يومية', 'عرض فواتير', 'سجل أدوية', 'تواصل مباشر'],
+        features_en: ['Daily Reports', 'Invoice View', 'Medication Log', 'Direct Contact'],
+        count: 6,
+        products: [
+          { name_ar: 'صفحة ملف المريض', name_en: 'Patient Profile Page', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'صفحة أنيقة تعرض كل معلومات المريض وسجله الصحي', desc_en: 'Clean page showing all patient info and health history', img: 'client', specs_ar: ['تصميم بسيط', 'بدون تقني', 'تحديث فوري', 'آمن'], specs_en: ['Simple Design', 'Non-technical', 'Live Update', 'Secure'] },
+          { name_ar: 'عرض التقارير اليومية', name_en: 'View Daily Reports', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'الأهل يقرؤون تقرير الممرض فور تسجيله مع إشعار فوري', desc_en: 'Family reads nurse reports immediately after logging with instant notification', img: 'reports2', specs_ar: ['إشعار فوري', 'قراءة آمنة', 'حفظ تاريخ', 'طباعة'], specs_en: ['Instant Notify', 'Secure Read', 'History Save', 'Print'] },
+          { name_ar: 'الفواتير والمدفوعات', name_en: 'Invoices & Payments', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'عرض جميع الفواتير مع حالة الدفع وإمكانية تحميل PDF', desc_en: 'View all invoices with payment status and PDF download', img: 'invoice', specs_ar: ['PDF تلقائي', 'تاريخ سداد', 'طباعة', 'إشعار استحقاق'], specs_en: ['Auto PDF', 'Payment History', 'Print', 'Due Notify'] }
+        ]
+      },
+      {
+        icon: '📱',
+        key: 'mobile',
+        name_ar: 'تطبيق الممرض (موبايل)',
+        name_en: 'Nurse Mobile App',
+        desc_ar: 'واجهة موبايل سهلة جداً تتيح للممرضين تسجيل التقارير والبيانات من الحقل بضغطات قليلة.',
+        desc_en: 'Very easy mobile interface allowing nurses to log reports and data from the field with just a few taps.',
+        features_ar: ['واجهة بسيطة', 'عمل أوفلاين', 'تصوير ورفع', 'GPS تلقائي'],
+        features_en: ['Simple UI', 'Offline Work', 'Photo Upload', 'Auto GPS'],
+        count: 5,
+        products: [
+          { name_ar: 'تسجيل التقرير اليومي', name_en: 'Log Daily Report', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'نموذج مبسط جداً يملأه الممرض في أقل من دقيقتين', desc_en: 'Very simplified form nurses fill in under 2 minutes', img: 'mobile', specs_ar: ['أزرار كبيرة', 'خطوات واضحة', 'حفظ مؤقت', 'إرسال لاحق'], specs_en: ['Big Buttons', 'Clear Steps', 'Auto Save', 'Later Send'] },
+          { name_ar: 'رفع الصور والفيديو', name_en: 'Upload Photos & Video', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'التقاط وإرفاق صور الحالة مباشرة للتقرير في الوقت الفعلي', desc_en: 'Capture and attach case photos directly to the report in real time', img: 'photo', specs_ar: ['ضغط تلقائي', 'تشفير آمن', 'رفع سريع', '4G/WiFi'], specs_en: ['Auto Compress', 'Secure Encrypt', 'Fast Upload', '4G/WiFi'] },
+          { name_ar: 'عمل بدون إنترنت', name_en: 'Offline Mode', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'التطبيق يعمل بدون إنترنت ويزامن التقارير عند الاتصال', desc_en: 'App works without internet and syncs reports when connected', img: 'offline', specs_ar: ['تخزين محلي', 'مزامنة تلقائية', 'تعارض صفر', 'إشعار مزامنة'], specs_en: ['Local Storage', 'Auto Sync', 'Zero Conflict', 'Sync Notify'] }
+        ]
+      },
+      {
+        icon: '🔐',
+        key: 'security',
+        name_ar: 'الأمان والصلاحيات',
+        name_en: 'Security & Permissions',
+        desc_ar: 'نظام صلاحيات متعدد المستويات يضمن أن كل مستخدم يرى فقط ما يخصه — خصوصية تامة وحماية كاملة للبيانات.',
+        desc_en: 'Multi-level permissions system ensuring each user sees only what concerns them — complete privacy and full data protection.',
+        features_ar: ['تشفير بيانات', 'صلاحيات دور', 'سجل دخول', 'GDPR'],
+        features_en: ['Data Encryption', 'Role Permissions', 'Login Log', 'GDPR'],
+        count: 5,
+        products: [
+          { name_ar: 'نظام الأدوار', name_en: 'Roles System', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'إدارة مرن إدارة · ممرض · عميل مع صلاحيات دقيقة لكل دور', desc_en: 'Flexible management of Admin · Nurse · Client roles with precise permissions', img: 'security', specs_ar: ['3 أدوار رئيسية', 'صلاحيات مخصصة', 'تدقيق كامل', 'تسجيل نشاط'], specs_en: ['3 Main Roles', 'Custom Permissions', 'Full Audit', 'Activity Log'] },
+          { name_ar: 'تشفير البيانات', name_en: 'Data Encryption', price_ar: 'مجاني', price_en: 'Free', desc_ar: 'تشفير كامل لجميع البيانات الحساسة في النقل والتخزين', desc_en: 'Full encryption of all sensitive data in transit and at rest', img: 'encrypt', specs_ar: ['TLS 1.3', 'AES-256', 'نسخ احتياطي', 'استرجاع سريع'], specs_en: ['TLS 1.3', 'AES-256', 'Backup', 'Quick Recovery'] }
+        ]
+      }
+    ];
+
+    /* ══════════════════════════════════════
+       5. Unsplash Image Mapper
+    ══════════════════════════════════════ */
+    const seed = Math.floor(Date.now() / 604800000);
+    const IMG_QUERIES = {
+      nurse: 'nurse+medical', profile: 'nurse+profile', alert: 'medical+alert',
+      report: 'medical+report', patient: 'patient+care', daily: 'nurse+writing',
+      meds: 'medication+pills', critical: 'medical+emergency', dashboard: 'medical+dashboard',
+      monitor: 'hospital+monitoring', finance: 'medical+billing', reports: 'doctor+report',
+      client: 'family+hospital', reports2: 'medical+report', invoice: 'medical+invoice',
+      mobile: 'nurse+phone', photo: 'medical+photo', offline: 'healthcare+app',
+      security: 'data+security', encrypt: 'cybersecurity',
+      default: 'healthcare+technology'
+    };
+    function getImg(key, w=400, h=300) {
+      const q = IMG_QUERIES[key] || IMG_QUERIES.default;
+      return `https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=${w}&h=${h}&fit=crop&q=75&sig=${seed}-${key}`;
+    }
+    // Better targeted images
+    const IMG_MAP = {
+      nurse: 'photo-1559839734-2b71ea197ec2', profile: 'photo-1612349317150-e413f6a5b16d',
+      alert: 'photo-1504813184591-01572f98c85f', report: 'photo-1584820927498-cfe5211fd8bf',
+      patient: 'photo-1576091160550-2173dba999ef', daily: 'photo-1551601651-2a8555f1a136',
+      meds: 'photo-1584308666744-24d5c474f2ae', critical: 'photo-1576091160399-112ba8d25d1d',
+      dashboard: 'photo-1551288049-bebda4e38f71', monitor: 'photo-1614935151651-0bea6508db6b',
+      finance: 'photo-1450101499163-c8848c66ca85', reports: 'photo-1586773860418-d37222d8fce3',
+      client: 'photo-1511895426328-dc8714191011', reports2: 'photo-1559757175-5700dde675bc',
+      invoice: 'photo-1554224155-8d04cb21cd6c', mobile: 'photo-1587854692152-cbe660dbde88',
+      photo: 'photo-1576091160399-112ba8d25d1d', offline: 'photo-1504868584819-f8e8b4b6d7e3',
+      security: 'photo-1563013544-824ae1b704d3', encrypt: 'photo-1555949963-ff9fe0c870eb'
+    };
+    function getImgUrl(key, w=400, h=300) {
+      const id = IMG_MAP[key] || IMG_MAP.patient;
+      return `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&q=75&auto=format`;
+    }
+
+    /* ══════════════════════════════════════
+       6. Theme System
+    ══════════════════════════════════════ */
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      document.getElementById('themeBtn').textContent = t === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem('ms_theme', t);
+      state.theme = t;
+    }
+    function toggleTheme() {
+      applyTheme(state.theme === 'dark' ? 'light' : 'dark');
+    }
+
+    /* ══════════════════════════════════════
+       7. Language System
+    ══════════════════════════════════════ */
+    function applyLang(lang) {
+      const html = document.documentElement;
+      html.setAttribute('lang', lang);
+      html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      document.getElementById('langBtn').textContent = lang === 'ar' ? 'EN' : 'AR';
+      localStorage.setItem('ms_lang', lang);
+      state.lang = lang;
+      // Apply translations
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (T[lang][key] !== undefined) el.textContent = T[lang][key];
+      });
+      // Re-render dynamic content
+      renderServices();
+      renderFooterModules();
+      // Update WA links
+      updateWaLinks();
+    }
+    function toggleLang() {
+      applyLang(state.lang === 'ar' ? 'en' : 'ar');
+    }
+
+    /* ══════════════════════════════════════
+       8. WhatsApp Helper
+    ══════════════════════════════════════ */
+    function waLink(msg) {
+      return `https://wa.me/${CONFIG.PHONE}?text=${encodeURIComponent(msg)}`;
+    }
+    function updateWaLinks() {
+      const lang = state.lang;
+      const msg = lang === 'ar'
+        ? `مرحباً، أود الاستفسار عن نظام Medical System`
+        : `Hello, I'd like to inquire about Medical System`;
+      const links = ['headerWaBtn','heroWaBtn','contactWaBtn','waFloatBtn','mobileWaBtn'];
+      links.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.href = waLink(msg);
+      });
+    }
+
+    /* ══════════════════════════════════════
+       9. Render Services Grid
+    ══════════════════════════════════════ */
+    function renderServices() {
+      const lang = state.lang;
+      const grid = document.getElementById('servicesGrid');
+      if (!grid) return;
+      grid.innerHTML = SERVICES.map((s, i) => `
+        <article class="service-card animate-on-scroll" onclick="openServiceModal(${i})" role="button" tabindex="0"
+                 onkeydown="if(event.key==='Enter')openServiceModal(${i})"
+                 aria-label="${lang==='ar'?s.name_ar:s.name_en}">
+          <div class="service-card-header">
+            <div class="service-icon">${s.icon}</div>
+            <div class="service-arrow">${lang==='ar'?'←':'→'}</div>
+          </div>
+          <div>
+            <h3 class="service-name">${lang==='ar'?s.name_ar:s.name_en}</h3>
+            <p class="service-desc">${lang==='ar'?s.desc_ar:s.desc_en}</p>
+          </div>
+          <div class="service-meta">
+            <span class="service-count">${s.count} ${T[lang].products_count}</span>
+            <div class="service-features">
+              ${(lang==='ar'?s.features_ar:s.features_en).map(f=>`<span class="feature-pill">${f}</span>`).join('')}
+            </div>
+          </div>
+        </article>
+      `).join('');
+      // Re-observe for scroll animations
+      observeAnimations();
+    }
+
+    function renderFooterModules() {
+      const lang = state.lang;
+      const el = document.getElementById('footerModules');
+      if (!el) return;
+      el.innerHTML = SERVICES.map(s => `<li><a href="#services">${lang==='ar'?s.name_ar:s.name_en}</a></li>`).join('');
+    }
+
+    /* ══════════════════════════════════════
+       10. Modal Logic
+    ══════════════════════════════════════ */
+    function openServiceModal(i) {
+      state.activeService = i;
+      const lang = state.lang;
+      const s = SERVICES[i];
+      document.getElementById('modalServiceCat').textContent = lang==='ar'?'وحدات النظام':'System Modules';
+      document.getElementById('modalServiceTitle').textContent = lang==='ar'?s.name_ar:s.name_en;
+      document.getElementById('modalServiceDesc').textContent = lang==='ar'?s.desc_ar:s.desc_en;
+      // Render products
+      const grid = document.getElementById('modalProductsGrid');
+      grid.innerHTML = s.products.map((p, pi) => `
+        <div class="product-card" onclick="openProductModal(${i},${pi})" role="button" tabindex="0"
+             onkeydown="if(event.key==='Enter')openProductModal(${i},${pi})">
+          <img class="product-img" src="${getImgUrl(p.img)}" alt="${lang==='ar'?p.name_ar:p.name_en}" loading="lazy"
+               onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzUiIGhlaWdodD0iNzUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzBhNmU4YTIwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwYTZlOGEiIGZvbnQtc2l6ZT0iMjgiPuKchTwvdGV4dD48L3N2Zz4='">
+          <div class="product-info">
+            <div class="product-cat">${lang==='ar'?s.name_ar:s.name_en}</div>
+            <div class="product-name">${lang==='ar'?p.name_ar:p.name_en}</div>
+            <div class="product-price">${lang==='ar'?p.price_ar:p.price_en}</div>
+          </div>
+          <div style="flex-shrink:0;color:var(--accent);font-size:1.1rem;">${lang==='ar'?'←':'→'}</div>
+        </div>
+      `).join('');
+      openModal('modal-service');
+    }
+
+    function openProductModal(si, pi) {
+      const lang = state.lang;
+      const s = SERVICES[si];
+      const p = s.products[pi];
+      state.activeProduct = {si, pi};
+      document.getElementById('modalProductName').textContent = lang==='ar'?p.name_ar:p.name_en;
+      document.getElementById('modalProductTitle').textContent = lang==='ar'?p.name_ar:p.name_en;
+      document.getElementById('modalProductPrice').textContent = lang==='ar'?p.price_ar:p.price_en;
+      document.getElementById('modalProductDesc').textContent = lang==='ar'?p.desc_ar:p.desc_en;
+      const img = document.getElementById('modalProductImg');
+      img.src = getImgUrl(p.img, 800, 500);
+      img.alt = lang==='ar'?p.name_ar:p.name_en;
+      // Badges
+      const badges = document.getElementById('modalProductBadges');
+      badges.innerHTML = [
+        `<div class="cert-badge"><span>✅</span>${lang==='ar'?'مُختبَر':'Tested'}</div>`,
+        `<div class="cert-badge"><span>📱</span>${lang==='ar'?'موبايل فرست':'Mobile First'}</div>`,
+        `<div class="cert-badge badge-success"><span>🟢</span>${T[lang].available}</div>`
+      ].join('');
+      // Specs
+      const specs = document.getElementById('modalProductSpecs');
+      const specList = lang==='ar'?p.specs_ar:p.specs_en;
+      const specKeys_ar = ['السهولة','التوافق','التكامل','الأمان'];
+      const specKeys_en = ['Ease','Compatibility','Integration','Security'];
+      const specKeys = lang==='ar'?specKeys_ar:specKeys_en;
+      specs.innerHTML = specList.map((v,idx)=>`
+        <div class="spec-item">
+          <span class="spec-key">${specKeys[idx]||'•'}</span>
+          <span class="spec-val">${v}</span>
+        </div>
+      `).join('');
+      // WA message
+      const waMsg = lang==='ar'
+        ? `مرحباً، أود الاستفسار عن: ${p.name_ar} من نظام Medical System`
+        : `Hello, I'd like to inquire about: ${p.name_en} from Medical System`;
+      document.getElementById('modalProductWa').href = waLink(waMsg);
+      openModal('modal-product');
+    }
+
+    function openModal(id) {
+      const overlay = document.getElementById(id);
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      state.openModal = id;
+      // Close on overlay click
+      overlay.addEventListener('click', function handler(e) {
+        if (e.target === overlay) { closeModal(id); overlay.removeEventListener('click', handler); }
+      });
+    }
+
+    function closeModal(id) {
+      const overlay = document.getElementById(id);
+      overlay.classList.remove('active');
+      if (state.openModal === id) {
+        document.body.style.overflow = '';
+        state.openModal = null;
+      }
+    }
+
+    // Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && state.openModal) closeModal(state.openModal);
+    });
+
+    /* ══════════════════════════════════════
+       11. Scroll Effects
+    ══════════════════════════════════════ */
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', ()=>{
+      header.classList.toggle('scrolled', window.scrollY > 20);
+      updateMobileNavActive();
+    }, {passive:true});
+
+    function updateMobileNavActive() {
+      const sections = ['hero','services','contact'];
+      const scrollY = window.scrollY + 100;
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const item = document.querySelector(`.mobile-nav-item[data-nav="${id}"]`);
+        if (!item) return;
+        const top = el.offsetTop;
+        const bottom = top + el.offsetHeight;
+        item.classList.toggle('active', scrollY >= top && scrollY < bottom);
+      });
+    }
+
+    /* ══════════════════════════════════════
+       12. Counter Animation
+    ══════════════════════════════════════ */
+    function animateCounter(el, target) {
+      let start = 0;
+      const duration = 1500;
+      const step = (timestamp) => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(eased * target);
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target;
+      };
+      requestAnimationFrame(step);
+    }
+
+    /* ══════════════════════════════════════
+       13. Scroll Animations (IntersectionObserver)
+    ══════════════════════════════════════ */
+    let countersDone = false;
+    function observeAnimations() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+      // Counter observer
+      if (!countersDone) {
+        const counterObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !countersDone) {
+              countersDone = true;
+              document.querySelectorAll('[data-count]').forEach(el => {
+                animateCounter(el, parseInt(el.getAttribute('data-count')));
+              });
+              counterObserver.disconnect();
+            }
+          });
+        }, { threshold: 0.3 });
+        const aboutSection = document.getElementById('about');
+        if (aboutSection) counterObserver.observe(aboutSection);
+      }
+    }
+
+    /* ══════════════════════════════════════
+       14. Hero Background (weekly seed)
+    ══════════════════════════════════════ */
+    function setHeroBg() {
+      const images = [
+        'photo-1576091160550-2173dba999ef',
+        'photo-1516549655169-df83a0774514',
+        'photo-1631217868264-e5b90bb7e133',
+        'photo-1551076805-e1869033e561'
+      ];
+      const idx = seed % images.length;
+      document.getElementById('heroBg').style.backgroundImage =
+        `url('https://images.unsplash.com/${images[idx]}?w=1600&q=80&auto=format&fit=crop')`;
+    }
+
+    /* ══════════════════════════════════════
+       15. init()
+    ══════════════════════════════════════ */
+    function init() {
+      applyTheme(state.theme);
+      applyLang(state.lang);
+      setHeroBg();
+      renderFooterModules();
+      updateWaLinks();
+      observeAnimations();
+      // Active nav links
+      document.querySelectorAll('nav.desktop-nav a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.querySelectorAll('nav.desktop-nav a').forEach(x=>x.classList.remove('active'));
+          a.classList.add('active');
+        });
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>
